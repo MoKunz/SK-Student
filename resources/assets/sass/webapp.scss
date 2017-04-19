@@ -19,6 +19,14 @@ $theme-color-main: #3f51b5;
   height: 100%;
 }
 
+@mixin overlay($index: 30,$offsetX: 0,$offsetY: 0) {
+  position: absolute;
+  @include full-size;
+  left: $offsetX;
+  top: $offsetY;
+  z-index: $index;
+}
+
 // Layout variables
 $toolbar-min-height: 64px;
 
@@ -64,16 +72,21 @@ html, body, #app {
 
 .main-content {
   position: relative;
-  z-index: 1;
-  overflow: auto;
+  z-index: 3;
   max-width: 100%;
   width: 100%;
+  height: 100%;
 }
 
+// Navigation
 .nav-wrapper {
   position: relative;
   z-index: 5;
   width: 100%;
+}
+
+#profile-name {
+  margin-bottom: 8px;
 }
 
 #news-section {
@@ -95,6 +108,12 @@ html, body, #app {
     }
   }
 }
+
+.menu-divider {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
 .router-link-active{
   li{
     color: $theme-color-main;
@@ -114,20 +133,18 @@ html, body, #app {
   }
 }
 
+#login-register-text {
+  color: #C5CAE9;
+}
+
+// News
+
 .news-card {
   width: 100%;
   margin-bottom: 8px;
 }
 
-@mixin overlay($index: 30,$offsetX: 0,$offsetY: 0){
-  position: absolute;
-  @include full-size;
-  left: $offsetX;
-  top: $offsetY;
-  z-index: $index;
-}
-
-#app-news-add,#app-news-view{
+#app-news-add, #app-news-view, #app-account-login, #app-account-register {
   @include overlay(10);
   background: #fff;
   animation: section-fadein 300ms cubic-bezier(0.4, 0.0, 0.2, 1);

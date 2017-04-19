@@ -3,11 +3,7 @@
  */
 // Main library
 import VueRouter from 'vue-router';
-
-// Import app component
-import News from './components/news/News.vue';
-import Timeline from './components/timeline/Timeline.vue';
-import AddNews from './components/news/AddNews.vue';
+import routesDef from './routes';
 
 // Vue maaterial
 window.Vue = require('vue');
@@ -20,72 +16,32 @@ Vue.material.setCurrentTheme('default');
 // Library stuff
 window._ = require('lodash');
 
+// constant
 const APP_NAME = "SK Student";
 
 // Router
-const router = new VueRouter({
+var router = new VueRouter({
     mode: 'history',
-    routes: [
-        // News app
-        {
-            name: 'news',
-            path: '/app/news',
-            components: {
-                default: News
-            },
-            meta: {
-                title: 'News',
-                appTitle: 'News'
-            },
-            children: []
-        },
-        // News add
-        {
-            name: 'news-add',
-            path: '/app/news/add',
-            meta: {
-                title: 'Add News',
-                appTitle: 'News'
-            },
-            components: {
-                default: News,
-                overlay: AddNews
-            }
-        },
-        // Timeline app
-        {
-            name: 'timeline',
-            path: '/app/timeline',
-            meta: {
-                title: 'Timeline',
-                appTitle: 'Timeline'
-            },
-            components: {
-                default: Timeline
-            }
-        }
-    ]
+    routes: routesDef,
 });
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.title)) {
         document.title = to.meta.title + " - " + APP_NAME;
-        app.appTitle = to.meta.appTitle;
     }
     else {
-        document.title = app.appTitle = APP_NAME;
+        document.title = APP_NAME;
     }
     next()
 });
-
 // App
 window.app = new Vue({
     router,
     data: {
         searchBar: false,
-        appTitle: "SK Student",
         loginSystem: {
-            token: '1234',
+            loggedIn: false,
             user: 'fd',
+            name: 'Wittaya Srichompoo',
             group: 'admin',
         }
     },

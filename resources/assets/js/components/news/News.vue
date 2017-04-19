@@ -1,11 +1,17 @@
 <template>
-    <div class="app-news">
-        <md-speed-dial id="action-add-news" md-mode="scale" class="md-fab-bottom-right" style="position: fixed">
+    <div id="app-news">
+        <!--<md-speed-dial id="action-add-news" md-mode="scale" class="md-fab-bottom-right" style="position: fixed">
             <md-button class="md-fab" v-on:click.native="actionAddNews">
                 <md-icon>add</md-icon>
             </md-button>
+        </md-speed-dial>-->
+        <md-speed-dial md-mode="scale" class="md-fab-bottom-right">
+            <md-button class="md-fab" md-fab-trigger v-on:click.native="actionAddNews">
+                <md-icon>add</md-icon>
+            </md-button>
+
         </md-speed-dial>
-        <md-layout>
+        <md-layout id="news-container">
             <md-layout md-flex="25" md-flex-small="10" md-hide-xsmall></md-layout>
             <md-layout id="news-section" md-align="center" md-flex-small="80" md-flex-xsmall="100" md-flex="50"
                        md-row :md-gutter="true">
@@ -30,13 +36,30 @@
                         </md-card>
                     </template>
                     <md-spinner md-indeterminate id="loading" v-show="spinner"></md-spinner>
-                    <br>
                 </md-layout>
             </md-layout>
             <md-layout md-flex="25" md-flex-small="10" md-hide-xsmall></md-layout>
         </md-layout>
     </div>
 </template>
+
+<style>
+    #news-container {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        width: 100%;
+        height: 100%;
+    }
+
+    #app-news {
+        overflow: hidden;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+</style>
 
 <script>
     import axios from 'axios';
@@ -55,7 +78,7 @@
             }
         },
         mounted() {
-            document.getElementById('main-section').addEventListener('scroll', _.throttle(this.loadNews, 500));
+            document.getElementById('news-container').addEventListener('scroll', _.throttle(this.loadNews, 500));
             this.getNewsFromServer();
         },
         methods: {

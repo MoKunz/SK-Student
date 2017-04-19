@@ -7,7 +7,8 @@
     <div id="app">
         <!-- overlay -->
         <router-view name="overlay"></router-view>
-        <md-whiteframe md-elevation="3" class="nav-wrapper">
+        <router-view name="appBar"></router-view>
+    <!--<md-whiteframe md-elevation="3" class="nav-wrapper">
             <md-toolbar>
                 <div class="md-toolbar-container">
                     <md-button class="md-icon-button" @click.native="toggleLeftSideNav">
@@ -43,7 +44,7 @@
                     </md-menu>
                 </div>
             </md-toolbar>
-        </md-whiteframe>
+        </md-whiteframe>-->
         <md-sidenav id="sidebar-section" class="md-left md-fixed" ref="leftSidenav" md-swipeable>
             <md-toolbar class="md-large md-account-header">
                 <md-list class="md-transparent">
@@ -55,10 +56,19 @@
                         <span style="flex: 1"></span>
                     </md-list-item>
 
-                    <md-list-item>
+                    <md-list-item id="profile-name">
                         <div class="md-list-text-container">
-                            <span>Wittaya Srichompoo</span>
-                            <span>admin@skstudent.com</span>
+                            <template v-if="loginSystem.loggedIn">
+                                <span>@{{loginSystem.name}}</span>
+                                <span>admin@skstudent.com</span>
+                            </template>
+                            <template v-else>
+                                <span>Guest</span>
+                                <span id="login-register-text">
+                                    <router-link :to="{ name: 'account-login'}">Login</router-link> | <router-link
+                                            :to="{ name: 'account-register'}">Register</router-link>
+                                </span>
+                            </template>
                         </div>
                         <md-button class="md-icon-button md-list-action hidden">
                             <md-icon>arrow_drop_down</md-icon>
@@ -78,10 +88,17 @@
                             <span>Timeline/Schedule</span>
                         </md-list-item>
                     </router-link>
+                    <md-divider class="menu-divider"></md-divider>
+                    <router-link id="app-link-account" :to="{ name: 'account'}">
+                        <md-list-item v-on:click.native="toggleLeftSideNav">
+                            <md-icon>account_box</md-icon>
+                            <span>Account</span>
+                        </md-list-item>
+                    </router-link>
                 </md-list>
             </md-toolbar>
         </md-sidenav>
-        <main id="main-section" class="main-content">
+        <main id="main-content" class="main-content">
             <router-view></router-view>
         </main>
     </div>

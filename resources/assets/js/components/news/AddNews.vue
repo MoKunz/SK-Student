@@ -55,6 +55,9 @@
                 tags: []
             };
         },
+        mounted(){
+
+        },
         methods: {
             doneAction(){
                 this.$router.back();
