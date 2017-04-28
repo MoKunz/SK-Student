@@ -13,16 +13,17 @@
             <md-layout id="news-section" md-align="center" md-flex-small="80" md-flex-xsmall="100" md-flex="50"
                        md-row :md-gutter="true">
                 <md-layout md-row md-flex="100" md-align="center">
-                    <form novalidate @submit.stop.prevent="submit" style="width: 100%">
+                    <form novalidate style="width: 100%">
                         <md-input-container>
                             <label>Email</label>
-                            <md-input></md-input>
+                            <md-input v-model="username" v-bind:disabled="processing"></md-input>
                         </md-input-container>
                         <md-input-container md-has-password>
                             <label>Password</label>
-                            <md-input type="password"></md-input>
+                            <md-input type="password" v-model="password" v-bind:disabled="processing"></md-input>
                         </md-input-container>
-                        <md-button class="md-raised md-primary">Login</md-button>
+                        <md-button class="md-raised md-primary" v-on:click.native="login">Login</md-button>
+                        <md-spinner md-indeterminate v-show="processing"></md-spinner>
                     </form>
                 </md-layout>
             </md-layout>
@@ -32,5 +33,30 @@
 </template>
 
 <script>
-    export default{}
+    import axios from 'axios';
+    const LOGIN_URL = '/app-api/account/login';
+    const LOG_PREFIX = '[Account/login] ';
+    export default{
+        data: function () {
+            return {
+                username: '',
+                password: '',
+                processing: false,
+                raiseError: false
+            }
+        },
+        methods: {
+            login() {
+                var self = this;
+                this.processing = true;
+                console.log(LOG_PREFIX + 'Logging in');
+                this.$parent.loginSystem.login(this.username, this.password).then(
+                        () => this.processing = false
+                ).catch(
+                        () => this.processing = false
+                )
+            }
+        }
+
+    }
 </script>

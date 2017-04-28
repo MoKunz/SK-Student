@@ -4,6 +4,7 @@
 // Main library
 import VueRouter from 'vue-router';
 import routesDef from './routes';
+import AccountSystem from "./AccountSystem";
 
 // Vue maaterial
 window.Vue = require('vue');
@@ -15,16 +16,22 @@ Vue.material.setCurrentTheme('default');
 
 // Library stuff
 window._ = require('lodash');
+window.axios = require('axios');
+window.axios.defaults.headers.common = {
+    'X-CSRF-TOKEN': window.Laravel.csrfToken,
+    'X-Requested-With': 'XMLHttpRequest'
+};
 
 // constant
-const APP_NAME = "SK Student";
+window.APP_NAME = "SK Student";
+window.APP_API_ENTRY = "/app-api";
 
 // Router
 var router = new VueRouter({
     mode: 'history',
     routes: routesDef,
 });
-router.beforeEach((to, from, next) => {
+var guard = (to, from, next) => {
     if (to.matched.some(record => record.meta.title)) {
         document.title = to.meta.title + " - " + APP_NAME;
     }
@@ -32,30 +39,21 @@ router.beforeEach((to, from, next) => {
         document.title = APP_NAME;
     }
     next()
-});
+};
+router.beforeEach(guard);
 // App
 window.app = new Vue({
     router,
     data: {
         searchBar: false,
-        loginSystem: {
-            loggedIn: false,
-            user: 'fd',
-            name: 'Wittaya Srichompoo',
-            group: 'admin',
-        }
+        loginSystem: new AccountSystem(window.app)
     },
     methods: {
         toggleLeftSideNav (){
             this.$refs.leftSidenav.toggle();
         },
-        toggleSearchBar (){
-            this.searchBar = !this.searchBar;
-            if(this.searchBar){
-                _.delay(() => {
-                    this.$refs.searchInput.$el.focus();
-                },1);
-            }
-        }
+    },
+    mounted(){
+        this.loginSystem.sync();
     }
 }).$mount('#app');

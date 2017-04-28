@@ -100,7 +100,7 @@
             getNewsFromServer() {
                 var self = this;
                 self.loading = true;
-                axios.get('/api/app/news', {
+                axios.get('/app-api/news', {
                     params: {skip: self.news.count, take: NEWS_TAKE}
                 })
                         .then(function (response) {

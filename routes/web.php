@@ -14,11 +14,11 @@
 Route::get('/', function () {
     return view('news')->with('news', \App\News::orderByDesc('updated_at')->paginate(5));
 })->name('index');
-Route::get('/news/{slug}',function ($slug) {
-    return view('singlenews')->with('singleNews', App\News::where('slug',$slug)->firstOrFail());
+Route::get('/news/{slug}', function ($slug) {
+    return view('singlenews')->with('singleNews', App\News::where('slug', $slug)->firstOrFail());
 })->name('show-news');
 Route::get('/addnews', function () {
-    return view('addnews')->with('categories',App\Category::all());
+    return view('addnews')->with('categories', App\Category::all());
 })->name('add-news');
 Route::post('/addnews', function (Request $request) {
     Validator::validate();
@@ -26,8 +26,19 @@ Route::post('/addnews', function (Request $request) {
 
 // App
 Route::get('/app/{app}', function () {
-    return view('app.news.index')->with('news',\App\News::orderByDesc('updated_at')->paginate(10));
-})->name('app')->where('app','.*');
+    return view('app.news.index')->with('news', \App\News::orderByDesc('updated_at')->paginate(10));
+})->name('app')->where('app', '.*');
+
+
+Route::group(['namespace' => 'App', 'prefix' => 'app-api'], function () {
+    Route::get('news', 'NewsController@get');
+    Route::post('news/add', 'NewsController@add');
+
+    Route::post('account/login', 'AccountController@login');
+    Route::post('account/logout', 'AccountController@logout');
+    Route::post('account/register', 'AccountController@register');
+    Route::get('account/current', 'AccountController@current');
+});
 
 
 Auth::routes();

@@ -59,8 +59,8 @@
                     <md-list-item id="profile-name">
                         <div class="md-list-text-container">
                             <template v-if="loginSystem.loggedIn">
-                                <span>@{{loginSystem.name}}</span>
-                                <span>admin@skstudent.com</span>
+                                <span>@{{loginSystem.data.name}}</span>
+                                <span>@{{loginSystem.data.email}}</span>
                             </template>
                             <template v-else>
                                 <span>Guest</span>
