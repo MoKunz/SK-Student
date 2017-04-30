@@ -14,13 +14,14 @@
                        md-row :md-gutter="true">
                 <md-layout md-row md-flex="100" md-align="center">
                     <form novalidate style="width: 100%">
-                        <md-input-container>
+                        <md-input-container v-bind:class="{ 'md-input-invalid': raiseError}">
                             <label>Email</label>
                             <md-input v-model="username" v-bind:disabled="processing"></md-input>
                         </md-input-container>
-                        <md-input-container md-has-password>
+                        <md-input-container md-has-password v-bind:class="{ 'md-input-invalid': raiseError}">
                             <label>Password</label>
                             <md-input type="password" v-model="password" v-bind:disabled="processing"></md-input>
+                            <span class="md-error">Validation message</span>
                         </md-input-container>
                         <md-button class="md-raised md-primary" v-on:click.native="login">Login</md-button>
                         <md-spinner md-indeterminate v-show="processing"></md-spinner>
@@ -34,7 +35,6 @@
 
 <script>
     import axios from 'axios';
-    const LOGIN_URL = '/app-api/account/login';
     const LOG_PREFIX = '[Account/login] ';
     export default{
         data: function () {
@@ -48,12 +48,19 @@
         methods: {
             login() {
                 var self = this;
+                this.raiseError = false;
                 this.processing = true;
                 console.log(LOG_PREFIX + 'Logging in');
                 this.$parent.loginSystem.login(this.username, this.password).then(
-                        () => this.processing = false
+                        () => {
+                            this.processing = false;
+                            self.$router.back();
+                        }
                 ).catch(
-                        () => this.processing = false
+                        () => {
+                            this.processing = false;
+                            this.raiseError = true;
+                        }
                 )
             }
         }

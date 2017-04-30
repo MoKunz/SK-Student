@@ -36,7 +36,6 @@ export default class AccountSystem {
                     (resp) => {
                         var data = resp.data;
                         if (data.success) {
-                            console.log(data);
                             this._updateAccount(true, data.user);
                             resolve(data.user);
                         }
@@ -55,7 +54,9 @@ export default class AccountSystem {
         return new Promise(
             (resolve, reject) => {
                 axios.post(APP_API_ENTRY + '/account/logout').then(
-                    (resp) =>resolve(resp)
+                    (resp) => {
+                        resolve(resp)
+                    }
                 ).catch(
                     (err) => reject(err)
                 );

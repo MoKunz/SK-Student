@@ -52,6 +52,16 @@ window.app = new Vue({
         toggleLeftSideNav (){
             this.$refs.leftSidenav.toggle();
         },
+        logout() {
+            var self = this;
+            this.loginSystem.logout().then(
+                (res) => {
+                    self.loginSystem.sync();
+                    console.log('Logout success');
+                    self.toggleLeftSideNav();
+                }
+            );
+        }
     },
     mounted(){
         this.loginSystem.sync();

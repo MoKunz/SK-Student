@@ -60,7 +60,7 @@
                         <div class="md-list-text-container">
                             <template v-if="loginSystem.loggedIn">
                                 <span>@{{loginSystem.data.name}}</span>
-                                <span>@{{loginSystem.data.email}}</span>
+                                <span>@{{loginSystem.data.email}} <a href="#" v-on:click="logout()">(Logout)</a></span>
                             </template>
                             <template v-else>
                                 <span>Guest</span>
