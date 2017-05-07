@@ -18,8 +18,6 @@ class CreateNewsTable extends Migration
             $table->increments('id');
             // author
             $table->unsignedInteger('user_id')->nullable();
-            // category
-            $table->unsignedInteger('category_id')->nullable();
             // headline
             $table->string('name');
             // slug
@@ -30,7 +28,6 @@ class CreateNewsTable extends Migration
             $table->timestamps();
             // foreign key
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

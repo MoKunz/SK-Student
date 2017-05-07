@@ -3,7 +3,7 @@
 @import url(//fonts.googleapis.com/icon?family=Material+Icons);
 
 // Color definition
-$theme-color-main: #3f51b5;
+$theme-color-main: #2196F3;
 
 // Mixin and macro
 @mixin flex-box {
@@ -48,6 +48,10 @@ html, body, #app {
 }
 .hidden-block{
   display: none;
+}
+
+.absolute {
+  position: absolute;
 }
 
 #app {
@@ -137,6 +141,10 @@ html, body, #app {
   color: #C5CAE9;
 }
 
+.app-spinner {
+  margin: 12px; // sqrt(25^2 + 25^2) - 25
+}
+
 // News
 
 .news-card {
@@ -156,6 +164,12 @@ html, body, #app {
 #news-add-form{
   width: 100%;
 }
-.full-width-field{
 
+.input-full-width {
+  background: none;
+  border: none;
+  display: block;
+  outline: 0;
+  line-height: normal;
+  text-decoration: none;
 }

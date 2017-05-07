@@ -29,7 +29,6 @@ $factory->define(App\News::class, function (Faker\Generator $faker) {
     $date = $faker->dateTimeThisYear;
     return [
         'user_id' => random_int(1,5),
-        'category_id' => random_int(1,3),
         'name' => $name,
         'slug' => str_slug($name),
         'content' => $faker->paragraph(random_int(5,50)),

@@ -13,7 +13,7 @@
             <md-layout id="news-section" md-align="center" md-flex-small="80" md-flex-xsmall="100" md-flex="50"
                        md-row :md-gutter="true">
                 <md-layout md-row md-flex="100" md-align="center">
-                    <form novalidate style="width: 100%">
+                    <form novalidate @submit.stop.prevent="submit" style="width: 100%">
                         <md-input-container v-bind:class="{ 'md-input-invalid': raiseError}">
                             <label>Email</label>
                             <md-input v-model="username" v-bind:disabled="processing"></md-input>
@@ -21,9 +21,11 @@
                         <md-input-container md-has-password v-bind:class="{ 'md-input-invalid': raiseError}">
                             <label>Password</label>
                             <md-input type="password" v-model="password" v-bind:disabled="processing"></md-input>
-                            <span class="md-error">Validation message</span>
+                            <span class="md-error">{{errorMessage}}</span>
                         </md-input-container>
-                        <md-button class="md-raised md-primary" v-on:click.native="login">Login</md-button>
+                        <md-button type="submit" v-bind:disabled="processing" class="md-raised md-primary"
+                                   v-on:click.native="login">Login
+                        </md-button>
                         <md-spinner md-indeterminate v-show="processing"></md-spinner>
                     </form>
                 </md-layout>
@@ -42,7 +44,8 @@
                 username: '',
                 password: '',
                 processing: false,
-                raiseError: false
+                raiseError: false,
+                errorMessage: 'Invalid username or password!'
             }
         },
         methods: {

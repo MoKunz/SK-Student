@@ -7,7 +7,11 @@
                 </md-button>
                 <h1 class="md-title">News</h1>
                 <span style="flex: 1"></span>
-                <md-button class="md-icon-button">
+                <!-- TODO: proper event for reloading -->
+                <md-button class="md-icon-button" @click.native="$parent.$router.push({ name: 'news-search'})">
+                    <md-icon>search</md-icon>
+                </md-button>
+                <md-button class="md-icon-button" @click.native="$parent.$emit('news.posted')">
                     <md-icon>refresh</md-icon>
                 </md-button>
                 <md-menu md-direction="bottom left" md-size="4">

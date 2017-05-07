@@ -2,25 +2,26 @@
  * Core script for progressive web app
  */
 // Main library
+import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueMaterial from 'vue-material';
+import VeeValidate from 'vee-validate';
 import routesDef from './routes';
 import AccountSystem from "./AccountSystem";
+import AppConfig from './config';
 
 // Vue maaterial
-window.Vue = require('vue');
-window.VueMaterial = require('vue-material');
-window.VueRouter = require('vue-router');
-Vue.use(window.VueMaterial);
+window.Vue = Vue;
+Vue.use(VueMaterial);
 Vue.use(VueRouter);
+Vue.use(VeeValidate, AppConfig.validatorConfig);
+Vue.material.registerTheme('default', AppConfig.defaultAppTheme);
 Vue.material.setCurrentTheme('default');
 
 // Library stuff
 window._ = require('lodash');
 window.axios = require('axios');
-window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.Laravel.csrfToken,
-    'X-Requested-With': 'XMLHttpRequest'
-};
+window.axios.defaults.headers.common = AppConfig.axiosHeader;
 
 // constant
 window.APP_NAME = "SK Student";
@@ -31,7 +32,7 @@ var router = new VueRouter({
     mode: 'history',
     routes: routesDef,
 });
-var guard = (to, from, next) => {
+let guard = (to, from, next) => {
     if (to.matched.some(record => record.meta.title)) {
         document.title = to.meta.title + " - " + APP_NAME;
     }
@@ -55,7 +56,7 @@ window.app = new Vue({
         logout() {
             var self = this;
             this.loginSystem.logout().then(
-                (res) => {
+                () => {
                     self.loginSystem.sync();
                     console.log('Logout success');
                     self.toggleLeftSideNav();
@@ -67,3 +68,6 @@ window.app = new Vue({
         this.loginSystem.sync();
     }
 }).$mount('#app');
+window.app.name = APP_NAME;
+window.app.apiEntry = APP_API_ENTRY;
+window.app.version = '1.0.2';

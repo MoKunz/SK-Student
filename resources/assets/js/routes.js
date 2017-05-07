@@ -3,6 +3,7 @@
 import News from './components/news/News.vue';
 import NewsBar from './components/news/NewsBar.vue';
 import AddNews from './components/news/AddNews.vue';
+import SearchNews from './components/news/SearchNews.vue';
 // Timeline
 import Timeline from './components/timeline/Timeline.vue';
 // Account
@@ -35,6 +36,19 @@ export default [
             default: News,
             appBar: NewsBar,
             overlay: AddNews
+        }
+    },
+    // News search
+    {
+        name: 'news-search',
+        path: '/app/news/search',
+        meta: {
+            title: 'Search'
+        },
+        components: {
+            default: News,
+            appBar: NewsBar,
+            overlay: SearchNews
         }
     },
     // Timeline app

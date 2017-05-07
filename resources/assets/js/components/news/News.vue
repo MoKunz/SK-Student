@@ -5,7 +5,7 @@
                 <md-icon>add</md-icon>
             </md-button>
         </md-speed-dial>-->
-        <md-speed-dial md-mode="scale" class="md-fab-bottom-right">
+        <md-speed-dial v-show="$parent.loginSystem.loggedIn" md-mode="scale" class="md-fab-bottom-right">
             <md-button class="md-fab" md-fab-trigger v-on:click.native="actionAddNews">
                 <md-icon>add</md-icon>
             </md-button>
@@ -24,18 +24,23 @@
                                          alt="Wittaya Srichompoo">
                                 </md-avatar>
                                 <div class="md-title">{{item.name}}</div>
-                                <div class="md-subhead">{{item.created_at}} - {{item.category.name}}</div>
+                                <div class="md-subhead">{{item.created_at}} by {{item.user.name}}</div>
                             </md-card-header>
 
-                            <md-card-content>
-                                {{item.content.substring(0,100)}}
+                            <md-card-content>{{item.content.substring(0,100)}}</md-card-content>
+                            <!-- Tag -->
+                            <md-card-content v-if="item.tags.length > 0">
+                                <template v-for="tag in item.tags">
+                                    <md-chip>{{tag.name}}</md-chip>
+                                    &nbsp;
+                                </template>
                             </md-card-content>
                             <md-card-media md-ratio="16:9" v-if="Math.random() > 0.5">
                                 <img src="//lorempixel.com/1600/900/" alt="People">
                             </md-card-media>
                         </md-card>
                     </template>
-                    <md-spinner md-indeterminate id="loading" v-show="spinner"></md-spinner>
+                    <md-spinner class="app-spinner" md-indeterminate id="loading" v-show="spinner"></md-spinner>
                 </md-layout>
             </md-layout>
             <md-layout md-flex="25" md-flex-small="10" md-hide-xsmall></md-layout>
@@ -80,6 +85,9 @@
         mounted() {
             document.getElementById('news-container').addEventListener('scroll', _.throttle(this.loadNews, 500));
             this.getNewsFromServer();
+            this.$parent.$on('news.posted', () => {
+                this.getNewsFromServer(true);
+            });
         },
         methods: {
             actionAddNews() {
@@ -97,13 +105,14 @@
                 }
 
             },
-            getNewsFromServer() {
+            getNewsFromServer(refresh = false) {
                 var self = this;
                 self.loading = true;
                 axios.get('/app-api/news', {
-                    params: {skip: self.news.count, take: NEWS_TAKE}
+                    params: {skip: refresh ? 0 : self.news.count, take: NEWS_TAKE}
                 })
                         .then(function (response) {
+                            if (refresh) self.news.data = [];
                             if (response.data.length > 0) {
                                 _.each(response.data, function (value) {
                                     self.news.data.push(value);
