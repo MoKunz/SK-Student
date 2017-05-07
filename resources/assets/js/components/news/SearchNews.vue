@@ -5,9 +5,13 @@
                 <md-button class="md-icon-button absolute" v-on:click.native="$router.back()">
                     <md-icon>arrow_back</md-icon>
                 </md-button>
-                <input type="text" ref="inputSearch" v-model="searchQuery" id="news-search-input" placeholder="Search"
-                       class="input-full-width"/>
-                <md-button class="md-icon-button absolute" style="right:0" @click.native="clearSearch()">
+                <form @submit.stop.prevent="search">
+                    <input type="text" ref="inputSearch" v-model="searchQuery" id="news-search-input"
+                           placeholder="Search"
+                           class="input-full-width"/>
+                    <input type="submit" style="display: none">
+                </form>
+                <md-button class="md-icon-button absolute" style="right:0" @click.native="clearSearch($event)">
                     <md-icon>close</md-icon>
                 </md-button>
             </md-toolbar>
@@ -42,6 +46,7 @@
 </style>
 
 <script>
+    const LOG_PREFIX = '[News/Search] ';
     export default{
         data: function () {
             return {
@@ -54,6 +59,17 @@
         methods: {
             clearSearch(){
                 this.searchQuery = '';
+                this.$refs.inputSearch.focus();
+            },
+            autoComplete(){
+                return new Promise((resolve, reject) => {
+                    reject('Not implemented!');
+                })
+            },
+            search(){
+                this.$refs.inputSearch.blur();
+                console.log(LOG_PREFIX + 'Begin complete search');
+                console.warn(LOG_PREFIX + 'Not implemented!');
             }
         }
     }
