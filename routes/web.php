@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('news')->with('news', \App\News::orderByDesc('updated_at')->paginate(5));
+    return redirect('/app/news');
 })->name('index');
 
 // App
