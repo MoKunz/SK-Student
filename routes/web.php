@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 // App
 Route::get('/app/{app}', function () {
-    return view('app.news.index');
+    return view('app.index');
 })->name('app')->where('app', '.*');
 
 
