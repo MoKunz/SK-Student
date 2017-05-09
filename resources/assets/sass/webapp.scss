@@ -41,6 +41,7 @@ $toolbar-min-height: 64px;
 html, body, #app {
   height: 100%;
   overflow: hidden;
+  user-select: none;
 }
 
 .hidden {

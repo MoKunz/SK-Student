@@ -6,7 +6,7 @@
                     <md-icon>arrow_back</md-icon>
                 </md-button>
                 <form @submit.stop.prevent="search">
-                    <input type="text" ref="inputSearch" v-model="searchQuery" id="news-search-input"
+                    <input ref="inputSearch" v-model="searchQuery" id="news-search-input"
                            placeholder="Search"
                            class="input-full-width"/>
                     <input type="submit" style="display: none">
@@ -32,12 +32,17 @@
     #news-search-input {
         margin-left: 56px;
         margin-right: 32px;
-        padding-top: 8px;
+        padding-top: 12px;
         padding-bottom: 8px;
         height: 32px;
         font-size: 18px;
         color: rgba(255, 255, 255, .87);
         width: 100%;
+    }
+
+    #news-search-input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px rgb(33, 150, 243) inset !important;
+        -webkit-text-fill-color: #fff !important;
     }
 
     #news-search-input::-webkit-input-placeholder {
@@ -51,6 +56,7 @@
         data: function () {
             return {
                 searchQuery: '',
+                fieldName: ''
             }
         },
         mounted(){

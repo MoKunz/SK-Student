@@ -36,7 +36,7 @@
                                 </template>
                             </md-card-content>
                             <md-card-media md-ratio="16:9" v-if="Math.random() > 0.5">
-                                <img src="//lorempixel.com/1600/900/" alt="People">
+                                <md-image md-src="//loremflickr.com/1600/900/" :alt="item.name"></md-image>
                             </md-card-media>
                         </md-card>
                     </template>
