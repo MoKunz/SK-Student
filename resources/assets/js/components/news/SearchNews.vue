@@ -15,6 +15,7 @@
                     <md-icon>close</md-icon>
                 </md-button>
             </md-toolbar>
+            <div class="toolbar-background"></div>
         </md-whiteframe>
         <md-layout id="news-add-mainframe">
             <md-layout md-flex="25" md-flex-small="10" md-hide-xsmall></md-layout>

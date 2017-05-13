@@ -71,6 +71,25 @@ html, body, #app {
   @include full-size;
 }
 
+#content-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  @include full-size;
+}
+
+.content-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  @include full-size;
+}
+
+.app-container {
+  overflow: hidden;
+  z-index: 5;
+  @include full-size;
+  position: absolute;
+}
+
 #sidebar-section > .md-sidenav-content{
   transition-duration: 0.25s;
 }
@@ -146,6 +165,13 @@ html, body, #app {
   margin: 12px; // sqrt(25^2 + 25^2) - 25
 }
 
+.toolbar-background {
+  position: absolute;
+  @include full-size;
+  top: 0;
+  left: 0;
+}
+
 // News
 
 .news-card {
@@ -157,6 +183,13 @@ html, body, #app {
   @include overlay(10);
   background: #fff;
   animation: section-fadein 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.app-overlay-container {
+  @include overlay(10);
+  background: #fff;
+  display: flex;
+  flex-flow: column;
 }
 
 #news-add-mainframe{

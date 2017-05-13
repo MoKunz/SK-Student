@@ -1,5 +1,5 @@
 <template>
-    <div id="app-news">
+    <div class="app-container">
         <!--<md-speed-dial id="action-add-news" md-mode="scale" class="md-fab-bottom-right" style="position: fixed">
             <md-button class="md-fab" v-on:click.native="actionAddNews">
                 <md-icon>add</md-icon>
@@ -11,7 +11,7 @@
             </md-button>
 
         </md-speed-dial>
-        <md-layout id="news-container">
+        <md-layout id="content-container">
             <md-layout md-flex="25" md-flex-small="10" md-hide-xsmall></md-layout>
             <md-layout id="news-section" md-align="center" md-flex-small="80" md-flex-xsmall="100" md-flex="50"
                        md-row :md-gutter="true">
@@ -49,20 +49,6 @@
 </template>
 
 <style>
-    #news-container {
-        overflow-y: scroll;
-        overflow-x: hidden;
-        width: 100%;
-        height: 100%;
-    }
-
-    #app-news {
-        overflow: hidden;
-        z-index: 5;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
 
 </style>
 
@@ -83,7 +69,7 @@
             }
         },
         mounted() {
-            document.getElementById('news-container').addEventListener('scroll', _.throttle(this.loadNews, 500));
+            document.getElementById('content-container').addEventListener('scroll', _.throttle(this.loadNews, 500));
             this.getNewsFromServer();
             this.$parent.$on('news.posted', () => {
                 this.getNewsFromServer(true);
