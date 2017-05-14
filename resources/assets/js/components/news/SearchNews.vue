@@ -1,7 +1,7 @@
 <template>
     <div id="app-news-add">
         <md-whiteframe md-elevation="3">
-            <md-toolbar>
+            <md-toolbar id="news-search-toolbar">
                 <md-button class="md-icon-button absolute" v-on:click.native="$router.back()">
                     <md-icon>arrow_back</md-icon>
                 </md-button>
@@ -39,6 +39,10 @@
         font-size: 18px;
         color: rgba(255, 255, 255, .87);
         width: 100%;
+    }
+
+    #news-search-toolbar {
+        z-index: 5;
     }
 
     #news-search-input:-webkit-autofill {
