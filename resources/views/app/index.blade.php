@@ -12,6 +12,8 @@
 
 @section('body')
     <div id="app">
+        <!-- splash screen -->
+        <div id="app-splash" class="app-hide" :class="appDisplay" style="background: #2196f3;"></div>
         <!-- overlay -->
         <router-view name="overlay"></router-view>
         <router-view name="appBar"></router-view>

@@ -47,6 +47,7 @@ window.app = new Vue({
     router,
     data: {
         searchBar: false,
+        show: false,
         loginSystem: new AccountSystem(window.app)
     },
     methods: {
@@ -58,14 +59,22 @@ window.app = new Vue({
             this.loginSystem.logout().then(
                 () => {
                     self.loginSystem.sync();
-                    console.log('Logout success');
                     self.toggleLeftSideNav();
                 }
             );
         }
     },
+    computed: {
+        appDisplay: function () {
+            return {
+                'app-show-animation': this.show
+            }
+        }
+    },
     mounted(){
+        var self = this;
         this.loginSystem.sync();
+        _.delay(() => self.show = true, 100);
     }
 }).$mount('#app');
 window.app.name = APP_NAME;

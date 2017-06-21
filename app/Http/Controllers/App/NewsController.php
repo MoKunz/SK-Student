@@ -23,19 +23,22 @@ class NewsController extends Controller
     public function add(AddNews $request)
     {
         $user = \Auth::user();
+        // Store news
         $news = new News();
         $news->user_id = $user->id;
         $news->name = $request->get('title');
         $news->slug = str_slug($request->get('title'));
         $news->content = $request->get('content');
         $success = $news->save();
+        // Save images
         if ($success)
             foreach ($request->get('tags', []) as $tagName) {
                 $tag = Tag::firstOrCreate(['name' => $tagName], ['name' => $tagName, 'description' => '']);
                 $news->tags()->attach($tag->id);
             }
         return [
-            'success' => $success
+            'success' => $success,
+            'time' => $news->updated_at,
         ];
     }
 

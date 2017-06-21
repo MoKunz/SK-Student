@@ -26,7 +26,7 @@ class AddNews extends FormRequest
     {
         return [
             'title' => 'required',
-            'tags' => 'array|present',
+            'tags' => 'present|array',
             'tags.*' => 'regex:/^[A-Za-z0-9ก-๙_]+$/',
             'content' => 'required'
         ];

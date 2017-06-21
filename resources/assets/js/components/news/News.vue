@@ -26,7 +26,9 @@
                                 <div class="md-title">{{item.name}}</div>
                                 <div class="md-subhead">{{item.created_at}} by {{item.user.name}}</div>
                             </md-card-header>
-
+                            <md-card-media md-ratio="16:9" v-if="Math.random() > 0.5">
+                                <md-image md-src="//loremflickr.com/1600/900/" :alt="item.name"></md-image>
+                            </md-card-media>
                             <md-card-content>{{item.content.substring(0,100)}}</md-card-content>
                             <!-- Tag -->
                             <md-card-content v-if="item.tags.length > 0">
@@ -35,9 +37,6 @@
                                     &nbsp;
                                 </template>
                             </md-card-content>
-                            <md-card-media md-ratio="16:9" v-if="Math.random() > 0.5">
-                                <md-image md-src="//loremflickr.com/1600/900/" :alt="item.name"></md-image>
-                            </md-card-media>
                         </md-card>
                     </template>
                     <md-spinner class="app-spinner" md-indeterminate id="loading" v-show="spinner"></md-spinner>

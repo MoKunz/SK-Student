@@ -15,7 +15,7 @@
             <div id="toolbar-fake-background" class="toolbar-background" :style="{opacity:toolbarAlpha}"></div>
         </md-whiteframe>
         <md-layout ref="mainContent" id="news-view-mainframe" class="content-container">
-            <img src="/img/test.jpg" :style="imageStyle">
+            <div class="news-image-container"><img src="/img/test.jpg" :style="imageStyle"></div>
             <div class="news-content-main">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mattis tellus erat, quis pretium dui
                     dapibus in. Nunc maximus tincidunt nisl, eget dapibus mauris vestibulum a. Nullam nulla nunc,
@@ -74,6 +74,10 @@
     .news-content-main {
         padding: 12px;
     }
+
+    .news-image-container {
+        background-color: #2196F3;
+    }
 </style>
 
 <script>
@@ -112,14 +116,19 @@
             imageStyle: function () {
                 return {
                     width: '100%',
-                    height: this.imageHeight + 'px'
+                    height: this.imageHeight + 'px',
+                    opacity: -(this.containerAlpha - 1)
                 };
             },
-            toolbarAlpha: function () {
+            containerAlpha: function () {
                 var pos = this.scrollPos;
                 if (pos == 0) return 0;
                 else if (pos >= this.imageHeight - 64) return 1;
                 else return (pos) / (this.imageHeight - 64.0);
+            },
+            toolbarAlpha: function () {
+                if (this.containerAlpha >= 1) return 1;
+                else return 0;
             },
             elevation: function () {
                 if (this.toolbarAlpha >= 1) return 3;

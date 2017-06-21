@@ -1,5 +1,5 @@
 <template>
-    <div id="app-news-add">
+    <div id="app-news-add" class="app-overlay-container">
         <md-whiteframe md-elevation="3">
             <md-toolbar id="news-search-toolbar">
                 <md-button class="md-icon-button absolute" v-on:click.native="$router.back()">
@@ -46,7 +46,7 @@
     }
 
     #news-search-input:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px rgb(33, 150, 243) inset !important;
+        -webkit-box-shadow: 0 0 0 1000px rgb(33, 150, 243) inset !important;
         -webkit-text-fill-color: #fff !important;
     }
 
