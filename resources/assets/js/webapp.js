@@ -26,6 +26,7 @@ window.axios.defaults.headers.common = AppConfig.axiosHeader;
 // constant
 window.APP_NAME = "SK Student";
 window.APP_API_ENTRY = "/app-api";
+window.APP_CONTENT_ENTRY = "/app-content";
 
 // Router
 var router = new VueRouter({

@@ -63,6 +63,11 @@ export default [
             default: News,
             appBar: NewsBar,
             overlay: ViewNews,
+        },
+        props: {
+            default: false,
+            appBar: false,
+            overlay: true,
         }
     },
     // Timeline app

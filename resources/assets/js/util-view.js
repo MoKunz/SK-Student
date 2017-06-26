@@ -14,3 +14,7 @@ export function elementInViewport (el) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
     );
 }
+
+export function userImageSrc(image, entry = window.APP_CONTENT_ENTRY) {
+    return entry + "/user-media/" + image;
+}

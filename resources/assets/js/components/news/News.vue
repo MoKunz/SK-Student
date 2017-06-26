@@ -26,8 +26,8 @@
                                 <div class="md-title">{{item.name}}</div>
                                 <div class="md-subhead">{{item.created_at}} by {{item.user.name}}</div>
                             </md-card-header>
-                            <md-card-media md-ratio="16:9" v-if="Math.random() > 0.5">
-                                <md-image md-src="//loremflickr.com/1600/900/" :alt="item.name"></md-image>
+                            <md-card-media md-ratio="16:9" v-if="item.media.length > 0">
+                                <md-image :md-src="userImage(item.media[0].id)" :alt="item.media.name"></md-image>
                             </md-card-media>
                             <md-card-content>{{item.content.substring(0,100)}}</md-card-content>
                             <!-- Tag -->
@@ -78,6 +78,9 @@
             actionAddNews() {
                 var router = this.$router;
                 router.push({'name': 'news-add'});
+            },
+            userImage(image) {
+                return ViewUtil.userImageSrc(image);
             },
             loadNews() {
                 var self = this;

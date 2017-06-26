@@ -90,6 +90,7 @@
                 windowWidth: 0,
             };
         },
+        props: ['name'],
         mounted(){
             // Dynamic background toolbar
             mainContainer = document.getElementById('news-view-mainframe');
@@ -97,6 +98,7 @@
             // Responsive image
             window.addEventListener('resize', this.handleResize);
             this.handleResize();
+            console.log(this.name);
         },
         methods: {
             doneAction(){

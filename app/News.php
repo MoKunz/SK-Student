@@ -36,4 +36,9 @@ class News extends Model
     {
         return $this->belongsToMany('App\Tag');
     }
+
+    public function media()
+    {
+        return $this->belongsToMany('App\Media');
+    }
 }

@@ -31,5 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Media extends Model
 {
-    //
+    public function news()
+    {
+        return $this->belongsToMany('App\News');
+    }
 }

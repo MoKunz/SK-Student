@@ -31,6 +31,10 @@ Route::group(['namespace' => 'App', 'prefix' => 'app-api'], function () {
     Route::get('account/current', 'AccountController@current');
 });
 
+Route::group(['prefix' => 'app-content'], function () {
+    Route::get('user-media/{mediaID}', 'UserMediaController@get');
+});
+
 
 Auth::routes();
 

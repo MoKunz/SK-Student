@@ -28,7 +28,8 @@ class AddNews extends FormRequest
             'title' => 'required',
             'tags' => 'present|array',
             'tags.*' => 'regex:/^[A-Za-z0-9ก-๙_]+$/',
-            'content' => 'required'
+            'content' => 'required',
+            'image' => 'image|max:2048'
         ];
     }
 }
