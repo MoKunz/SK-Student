@@ -15,8 +15,12 @@ Route::get('/', function () {
     return redirect('/app/activity-day');
 })->name('index');
 
+Route::get('/app', function () {
+    return redirect('/app/activity-day');
+})->name('index');
+
 // App
-Route::get('/app/{app}', function () {
+Route::get('/app/{app?}', function () {
     return view('app.index');
 })->name('app')->where('app', '.*');
 

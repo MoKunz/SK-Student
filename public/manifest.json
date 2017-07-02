@@ -1,9 +1,21 @@
 {
-  "name": "SK Student",
-  "short_name": "SK Student",
+  "name": "SK Kornor",
+  "short_name": "SK Kornor",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
   "display": "standalone",
   "scope": "/app",
-  "start_url": "/app/news?utm_source=homescreen"
+  "start_url": "/app",
+  "icons": [
+    {
+      "src": "/img/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
 }
