@@ -46,7 +46,7 @@
 
             <md-dialog-content>
                 <form novalidate>
-                    <md-input-container>
+                    <md-input-container v-bind:class="{ 'md-input-invalid': otpInvalid}">
                         <label>OTP (Ref: {{otpRef}})</label>
                         <md-input type="tel" maxlength="6" v-model="otp"></md-input>
                     </md-input-container>
@@ -60,9 +60,9 @@
             </md-dialog-actions>
         </md-dialog>
         <md-dialog-alert
-                :md-title="phoneUsed.title"
-                :md-content-html="phoneUsed.contentHtml"
-                ref="phoneUsed">
+                :md-title="alert.title"
+                :md-content-html="alert.contentHtml"
+                ref="alert">
         </md-dialog-alert>
         <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
             <span>{{snackBarMessage}}</span>
@@ -80,12 +80,13 @@
                 nextMessage: 'NEXT',
                 inProgress: false,
                 otp: '',
+                otpInvalid: false,
                 otpSent: false,
                 otpRef: '000000',
                 clubSelection: '',
                 phone: '',
                 clubs: [],
-                phoneUsed: {
+                alert: {
                     title: 'Error',
                     contentHtml: 'message'
                 },
@@ -110,6 +111,7 @@
                     this.processing = true;
                 else
                     return;
+                this.otpInvalid = false;
                 this.snackBarMessage = 'Processing your request';
                 this.$refs.snackbar.open();
                 axios.post(APP_API_ENTRY + '/activity-day/request-otp', {
@@ -122,14 +124,19 @@
                         this.openDialog('sms');
                     }
                     else {
-                        this.phoneUsed.contentHtml = response.data.message;
-                        this.openDialog('phoneUsed');
+                        this.alert.contentHtml = response.data.message;
+                        this.openDialog('alert');
                     }
                     this.processing = false;
                 }).catch((err) => {
                     this.$refs.snackbar.close();
                     this.processing = false;
-                    console.log('Unexpected error occurred');
+                    if (err.response.status == 422)
+                        this.alert.contentHtml = 'Invalid data, Please check and try again!';
+                    else
+                        this.alert.contentHtml = 'Unexpected error occurred, Please try again later!';
+
+                    this.openDialog('alert');
                 });
             },
             vote(){
@@ -137,23 +144,25 @@
                     this.processing = true;
                 else
                     return;
+                this.otpInvalid = false;
                 axios.post(APP_API_ENTRY + '/activity-day/vote', {
                     'phone': this.phone,
                     'otp': this.otp,
                     'club': this.clubSelection
                 }).then((response) => {
-                    this.processing = false;
-                    this.closeDialog('sms');
                     if (response.data.success) {
+                        this.closeDialog('sms');
                         console.log('Success!');
                         this.snackBarMessage = 'Your vote has been registered!';
                         this.$refs.snackbar.open();
                     }
                     else {
-
+                        this.otpInvalid = true;
                     }
+                    this.processing = false;
                 }).catch((err) => {
                     this.processing = false;
+                    this.otpInvalid = true;
                     console.log('Unexpected error occurred');
                 });
             },
