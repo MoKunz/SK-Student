@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/app/news');
+    return redirect('/app/activity-day');
 })->name('index');
 
 // App

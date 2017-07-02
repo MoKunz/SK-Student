@@ -10,8 +10,7 @@
         </md-whiteframe>
         <div class="content-container" style="padding: 12px;">
             <md-layout md-flex="100" style="width: 100%; height: 100%;">
-                <form novalidate @submit.stop.prevent="submit"
-                      style="width: 100%; height: 100%;display: flex;flex-flow: column">
+                <form novalidate style="width: 100%; height: 100%;display: flex;flex-flow: column">
                     <!-- Second row -->
                     <md-layout :md-gutter="true" md-flex="10" style="min-height: 64px;">
                         <!-- Phone number -->
@@ -46,7 +45,7 @@
             <md-dialog-title>Enter your OTP</md-dialog-title>
 
             <md-dialog-content>
-                <form novalidate @submit.stop.prevent="submit">
+                <form novalidate>
                     <md-input-container>
                         <label>OTP (Ref: {{otpRef}})</label>
                         <md-input type="tel" maxlength="6" v-model="otp"></md-input>
@@ -65,7 +64,9 @@
                 :md-content-html="phoneUsed.contentHtml"
                 ref="phoneUsed">
         </md-dialog-alert>
-
+        <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+            <span>{{snackBarMessage}}</span>
+        </md-snackbar>
     </div>
 </template>
 
@@ -87,7 +88,11 @@
                 phoneUsed: {
                     title: 'Error',
                     contentHtml: 'message'
-                }
+                },
+                snackBarMessage: 'Processing your request',
+                vertical: 'bottom',
+                horizontal: 'center',
+                duration: 4000
             };
         },
         mounted() {
@@ -101,10 +106,17 @@
         },
         methods: {
             requestOTP(){
+                if (!this.processing)
+                    this.processing = true;
+                else
+                    return;
+                this.snackBarMessage = 'Processing your request';
+                this.$refs.snackbar.open();
                 axios.post(APP_API_ENTRY + '/activity-day/request-otp', {
                     'phone': this.phone,
                     'userAgent': navigator.userAgent,
                 }).then((response) => {
+                    this.$refs.snackbar.close();
                     if (response.data.success) {
                         this.otpRef = response.data.ref;
                         this.openDialog('sms');
@@ -113,24 +125,35 @@
                         this.phoneUsed.contentHtml = response.data.message;
                         this.openDialog('phoneUsed');
                     }
+                    this.processing = false;
                 }).catch((err) => {
+                    this.$refs.snackbar.close();
+                    this.processing = false;
                     console.log('Unexpected error occurred');
                 });
             },
             vote(){
+                if (!this.processing)
+                    this.processing = true;
+                else
+                    return;
                 axios.post(APP_API_ENTRY + '/activity-day/vote', {
                     'phone': this.phone,
                     'otp': this.otp,
                     'club': this.clubSelection
                 }).then((response) => {
+                    this.processing = false;
                     this.closeDialog('sms');
-                    if (response.data.succes) {
+                    if (response.data.success) {
                         console.log('Success!');
+                        this.snackBarMessage = 'Your vote has been registered!';
+                        this.$refs.snackbar.open();
                     }
                     else {
 
                     }
                 }).catch((err) => {
+                    this.processing = false;
                     console.log('Unexpected error occurred');
                 });
             },
