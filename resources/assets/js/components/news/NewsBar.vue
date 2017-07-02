@@ -14,22 +14,9 @@
                 <md-button class="md-icon-button" @click.native="$parent.$emit('news.posted')">
                     <md-icon>refresh</md-icon>
                 </md-button>
-                <md-menu md-direction="bottom left" md-size="4">
-                    <md-button class="md-icon-button" md-menu-trigger>
-                        <md-icon>more_vert</md-icon>
-                    </md-button>
-                    <md-menu-content>
-                        <md-menu-item>
-                            <span>Find on map</span>
-                            <md-icon>near_me</md-icon>
-                        </md-menu-item>
-
-                        <md-menu-item>
-                            <span>Call</span>
-                            <md-icon>phone</md-icon>
-                        </md-menu-item>
-                    </md-menu-content>
-                </md-menu>
+                <md-button class="md-icon-button" md-menu-trigger>
+                    <md-icon>more_vert</md-icon>
+                </md-button>
             </div>
         </md-toolbar>
     </md-whiteframe>

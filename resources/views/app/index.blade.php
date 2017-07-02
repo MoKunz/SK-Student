@@ -54,7 +54,7 @@
                 </div>
             </md-toolbar>
         </md-whiteframe>-->
-        <md-sidenav id="sidebar-section" class="md-left md-fixed" ref="leftSidenav" md-swipeable>
+        <md-sidenav id="sidebar-section" class="md-left md-fixed" ref="leftSidenav" md-swipeable style="z-index:9">
             <md-toolbar class="md-large md-account-header">
                 <md-list class="md-transparent">
                     <md-list-item class="md-avatar-list">
@@ -74,8 +74,8 @@
                             <template v-else>
                                 <span>Guest</span>
                                 <span id="login-register-text">
-                                    <router-link :to="{ name: 'account-login'}">Login</router-link> | <router-link
-                                            :to="{ name: 'account-register'}">Register</router-link>
+                                    <router-link :to="{ name: 'account-login'}">Login</router-link> | <!--<router-link
+                                            :to="{ name: 'account-register'}">Register</router-link>-->
                                 </span>
                             </template>
                         </div>
@@ -91,10 +91,15 @@
                             <span>News</span>
                         </md-list-item>
                     </router-link>
-                    <router-link id="app-link-timeline" :to="{ name: 'timeline'}">
+
+                    <md-list-item>
+                        <md-icon>today</md-icon>
+                        <span>Timeline/Schedule(Coming Soon)</span>
+                    </md-list-item>
+                    <router-link id="app-link-activity-day" :to="{ name: 'activity-day'}">
                         <md-list-item v-on:click.native="toggleLeftSideNav">
-                            <md-icon>today</md-icon>
-                            <span>Timeline/Schedule</span>
+                            <md-icon>toys</md-icon>
+                            <span>Activity Day 2017</span>
                         </md-list-item>
                     </router-link>
                     <md-divider class="menu-divider"></md-divider>

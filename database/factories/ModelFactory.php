@@ -36,3 +36,20 @@ $factory->define(App\News::class, function (Faker\Generator $faker) {
         'updated_at' => $date
     ];
 });
+
+$factory->define(App\ActivityDayClub::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company
+    ];
+});
+
+$factory->define(App\ActivityDayVoter::class, function (Faker\Generator $faker) {
+    return [
+        'student_id' => random_int(52000, 56000),
+        'club_id' => random_int(1, 50),
+        'grade' => random_int(1, 3),
+        'phone_number' => '08' . (string)random_int(11111111, 99999999),
+        'ip_address' => $faker->ipv4,
+        'user_agent' => $faker->userAgent
+    ];
+});

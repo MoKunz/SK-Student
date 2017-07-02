@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\News whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\News whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Media[] $media
  */
 class News extends Model
 {

@@ -29,6 +29,10 @@ Route::group(['namespace' => 'App', 'prefix' => 'app-api'], function () {
     Route::post('account/logout', 'AccountController@logout')->middleware('auth');
     Route::post('account/register', 'AccountController@register');
     Route::get('account/current', 'AccountController@current');
+
+    Route::get('activity-day/clubs', 'ActivityDayController@clubs');
+    Route::post('activity-day/request-otp', 'ActivityDayController@requestOTP');
+    Route::post('activity-day/vote', 'ActivityDayController@vote');
 });
 
 Route::group(['prefix' => 'app-content'], function () {

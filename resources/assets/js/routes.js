@@ -12,6 +12,8 @@ import Account from './components/account/Account.vue';
 import AccountBar from './components/account/AccountBar.vue';
 import AccountLogin from './components/account/AccountLogin.vue';
 import AccountRegister from './components/account/AccountRegister.vue';
+// Activity Day
+import ActivityDay from './components/activityday/ActivityDay.vue';
 
 export default [
     // News app
@@ -117,6 +119,17 @@ export default [
             default: Account,
             appBar: AccountBar,
             overlay: AccountRegister
+        }
+    },
+    // Activity day
+    {
+        name: 'activity-day',
+        path: '/app/activity-day',
+        meta: {
+            title: 'Activity Day 2017',
+        },
+        components: {
+            default: ActivityDay
         }
     }
 ];

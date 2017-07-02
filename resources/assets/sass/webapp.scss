@@ -116,6 +116,8 @@ html, body, #app {
   z-index: 5;
   @include full-size;
   position: absolute;
+  @include flex-box;
+  flex-flow: column;
 }
 
 #sidebar-section > .md-sidenav-content{
@@ -241,6 +243,14 @@ html, body, #app {
   margin-top: -20px;
   color: gray;
   font-size: 12px;
+}
+
+.field-group {
+  display: flex;
+}
+
+.input-container-margin {
+  margin-right: 12px;
 }
 
 .input-chip-adjust-padding {

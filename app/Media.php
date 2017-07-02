@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Media whereUrl($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Media whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\News[] $news
  */
 class Media extends Model
 {
