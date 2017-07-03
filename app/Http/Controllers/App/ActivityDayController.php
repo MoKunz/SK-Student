@@ -72,7 +72,7 @@ class ActivityDayController extends Controller
             $code->otp = random_int(100000, 999999);
             $code->voter_id = $voter->id;
             $code->save();
-            $this->sendSMS($voter->phone_number, $code->reference);
+            $this->sendSMS($voter->phone_number, $code->otp, $code->reference);
             $ref = $code->reference;
             $message = 'OTP has been generated and sent to following phone number (' . $voter->phone_number . ')';
         }
@@ -84,13 +84,29 @@ class ActivityDayController extends Controller
     }
 
     /**
-     * TODO: IMPLEMENT THIS ASAP
+     *
      * @param $phone
      * @param $ref
      */
-    private function sendSMS($phone, $ref)
+    private function sendSMS($phone, $pin, $ref)
     {
+        $username = env('SMS_USERNAME');
+        $password = env('SMS_PASSWORD');
+        $message = urlencode("Activity Day 2017 PIN: " . $pin . " (Ref:" . $ref . ')');
+        $phoneList = $phone;
+        $sender = 'SMSMKT.COM';
+        $parameter = 'User=' . $username . '&Password=' . $password . '&Msnlist=' . $phoneList . '&Msg=' . $message . '&Sender=' . $sender;
+        $API_URL = 'http://member.smsmkt.com/SMSLink/SendMsg/index.php';
 
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $API_URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $parameter);
+
+        $result = curl_exec($ch);
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
     }
 
 }

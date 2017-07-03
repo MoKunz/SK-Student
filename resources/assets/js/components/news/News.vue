@@ -23,6 +23,10 @@
                                     <div class="md-subhead">สวนสนกุกิจกรรม</div>
                                 </md-card-header>
 
+                                <md-card-content>
+                                    fobarbaa
+                                </md-card-content>
+
                                 <md-card-actions>
                                     <md-button>INFO</md-button>
                                     <router-link tag="md-button" to="/app/activity-day">VOTE</router-link>
