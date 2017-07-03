@@ -189,10 +189,10 @@ class ActivityDayController extends Controller
 
     public function summary()
     {
-        $voters = ActivityDayVoter::all();
+        $voters = ActivityDayVoter::all()->groupBy('club_id');
         $votersMap = [];
-        foreach ($voters as $voter) {
-            $votersMap[(string)$voter->club_id]++;
+        foreach ($voters as $key => $value) {
+            $votersMap[$key] = count($value);
         }
         return $votersMap;
     }
