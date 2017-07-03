@@ -64,7 +64,7 @@
                 <md-list class="md-transparent">
                     <md-list-item class="md-avatar-list">
                         <md-avatar class="md-large">
-                            <img src="https://placeimg.com/64/64/people/8" alt="People">
+                            <img src="/img/android-chrome-192x192.png" alt="Kornor">
                         </md-avatar>
 
                         <span style="flex: 1"></span>
@@ -79,7 +79,7 @@
                             <template v-else>
                                 <span>Guest</span>
                                 <span id="login-register-text">
-                                    <router-link :to="{ name: 'account-login'}">Login</router-link> | <!--<router-link
+                                    <router-link :to="{ name: 'account-login'}">Login</router-link>  <!-- | <router-link
                                             :to="{ name: 'account-register'}">Register</router-link>-->
                                 </span>
                             </template>

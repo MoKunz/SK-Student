@@ -90,9 +90,11 @@ class ActivityDayController extends Controller
      */
     private function sendSMS($phone, $pin, $ref)
     {
+        if (env('SMS_DEBUG', false))
+            return;
         $username = env('SMS_USERNAME');
         $password = env('SMS_PASSWORD');
-        $message = urlencode("Activity Day 2017 PIN: " . $pin . " (Ref:" . $ref . ')');
+        $message = urlencode("#SKActivityPark\nVOTE PIN: " . $pin . " (Ref:" . $ref . ")\nMore info: skkornor.com");
         $phoneList = $phone;
         $sender = 'SMSMKT.COM';
         $parameter = 'User=' . $username . '&Password=' . $password . '&Msnlist=' . $phoneList . '&Msg=' . $message . '&Sender=' . $sender;

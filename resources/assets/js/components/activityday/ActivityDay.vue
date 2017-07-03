@@ -15,9 +15,10 @@
                     <md-layout :md-gutter="true" md-flex="10" style="min-height: 64px;">
                         <!-- Phone number -->
                         <md-layout md-gutter md-flex="100">
-                            <md-input-container>
+                            <md-input-container v-bind:class="{ 'md-input-invalid': errors.has('phone')}">
                                 <label>Mobile phone number (For SMS)</label>
-                                <md-input v-model="phone" type="tel" maxlength="10"></md-input>
+                                <md-input name="phone" v-validate="'required|numeric|min:10 '" v-model="phone"
+                                          type="tel" maxlength="10"></md-input>
                             </md-input-container>
                         </md-layout>
                     </md-layout>
@@ -42,16 +43,16 @@
             </md-layout>
         </div>
         <md-dialog :md-click-outside-to-close="false" ref="sms">
-            <md-dialog-title>Enter your OTP</md-dialog-title>
+            <md-dialog-title>Enter your PIN code</md-dialog-title>
 
             <md-dialog-content>
                 <form novalidate>
                     <md-input-container v-bind:class="{ 'md-input-invalid': otpInvalid}">
-                        <label>OTP (Ref: {{otpRef}})</label>
+                        <label>PIN (Ref: {{otpRef}})</label>
                         <md-input type="tel" maxlength="6" v-model="otp"></md-input>
                     </md-input-container>
                 </form>
-                The OTP has been sent to your phone ({{phone}}), please enter it to continue.
+                The PIN code has been sent to your phone ({{phone}}), please enter it to continue.
             </md-dialog-content>
 
             <md-dialog-actions>
@@ -111,6 +112,10 @@
                     this.processing = true;
                 else
                     return;
+                if (!this.validateForm()) {
+                    this.processing = false;
+                    return;
+                }
                 this.otpInvalid = false;
                 this.snackBarMessage = 'Processing your request';
                 this.$refs.snackbar.open();
@@ -165,6 +170,15 @@
                     this.otpInvalid = true;
                     console.log('Unexpected error occurred');
                 });
+            },
+            validateForm(){
+                let valid = (this.clubSelection != '') && !this.errors.has('phone');
+                console.log(valid);
+                if (!valid) {
+                    this.alert.contentHtml = 'Invalid data, Please check and try again!';
+                    this.openDialog('alert');
+                }
+                return valid;
             },
             clubName(name){
                 return 'club-name-' + name;
