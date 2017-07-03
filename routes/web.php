@@ -39,6 +39,7 @@ Route::group(['namespace' => 'App', 'prefix' => 'app-api'], function () {
     Route::post('activity-day/vote', 'ActivityDayController@vote');
     Route::post('activity-day/status', 'ActivityDayController@status');
     Route::post('activity-day/popcorn', 'ActivityDayController@popcorn');
+    Route::get('activity-day/summary', 'ActivityDayController@summary');
 });
 
 Route::group(['prefix' => 'app-content'], function () {

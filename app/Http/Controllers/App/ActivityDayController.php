@@ -9,6 +9,7 @@ use App\ActivityDayVoter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActivityDayOTP;
 use App\Http\Requests\ActivityDayVote;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ActivityDayController extends Controller
@@ -177,12 +178,23 @@ class ActivityDayController extends Controller
         $result = explode(',', curl_exec($ch));
         $status = explode('=', $result[0])[1];
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        info(Carbon::now()->toDateTimeString() . ' Raw response: ' . $result);
         curl_close($ch);
         if ($code == 200 && intval($status) == 0) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function summary()
+    {
+        $voters = ActivityDayVoter::all();
+        $votersMap = [];
+        foreach ($voters as $voter) {
+            $votersMap[$voter->club_id]++;
+        }
+        return $votersMap;
     }
 
 }
