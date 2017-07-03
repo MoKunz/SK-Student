@@ -10,7 +10,10 @@
         </md-whiteframe>
         <div class="content-container" style="padding: 12px;">
             <md-layout md-flex="100" style="width: 100%; height: 100%;">
-                <form v-if="!voted" novalidate style="width: 100%; height: 100%;display: flex;flex-flow: column">
+                <div v-if="!ready" style="width: 100%; height: 100%;">
+                    <Countdown v-if="loaded" v-bind:deadline="date"></Countdown>
+                </div>
+                <form v-else-if="!voted" novalidate style="width: 100%; height: 100%;display: flex;flex-flow: column">
                     <!-- Second row -->
                     <md-layout :md-gutter="true" md-flex="10" style="min-height: 64px;">
                         <!-- Phone number -->
@@ -95,10 +98,17 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import Countdown from './../Countdown.vue';
     import axios from 'axios';
     export default{
+        components: {Countdown},
         data: function () {
             return {
+                loaded: false,
+                task: 0,
+                date: 'July 03, 2017 14:30:00',
+                current: null,
                 voted: false,
                 voteMessage: 'VOTE',
                 nextMessage: 'NEXT',
@@ -123,6 +133,9 @@
             };
         },
         mounted() {
+            this.task = setInterval(() => {
+                this.current = new Date();
+            }, 500);
             axios.get(APP_API_ENTRY + '/activity-day/clubs')
                     .then((response) => {
                         this.clubs = response.data;
@@ -138,6 +151,15 @@
             }
             if (localStorage.getItem('popcorn') != undefined) {
                 this.popcornTaken = localStorage.getItem('popcorn');
+            }
+            setTimeout(() => this.loaded = true, 1000);
+        },
+        unmounted() {
+            clearInterval(this.task);
+        },
+        computed: {
+            ready: function () {
+                return moment(this.date).isBefore(this.current);
             }
         },
         methods: {

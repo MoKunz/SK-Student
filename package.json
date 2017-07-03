@@ -20,6 +20,7 @@
     "axios": "^0.15.3",
     "lodash": "^4.17.4",
     "material-components-web": "^0.7.0",
+    "moment": "^2.18.1",
     "vee-validate": "^2.0.0-rc.3",
     "vue": "^2.2.6",
     "vue-material": "^0.7.1",
