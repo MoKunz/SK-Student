@@ -192,8 +192,10 @@ class ActivityDayController extends Controller
         $voters = ActivityDayVoter::all()->groupBy('club_id');
         $votersMap = [];
         foreach ($voters as $key => $value) {
-            $votersMap[$key] = count($value);
+            $votersMap[$key]["count"] = count($value);
+            if (isset($value[0]->club)) $votersMap[$key]["name"] = $value[0]->club->name;
         }
+        sort($votersMap);
         return $votersMap;
     }
 
