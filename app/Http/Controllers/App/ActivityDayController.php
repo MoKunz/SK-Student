@@ -192,7 +192,7 @@ class ActivityDayController extends Controller
         $voters = ActivityDayVoter::all();
         $votersMap = [];
         foreach ($voters as $voter) {
-            $votersMap[$voter->club_id]++;
+            $votersMap[(string)$voter->club_id]++;
         }
         return $votersMap;
     }
