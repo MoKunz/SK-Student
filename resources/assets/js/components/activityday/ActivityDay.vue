@@ -23,7 +23,7 @@
                         </md-layout>
                     </md-layout>
                     <!-- Third row -->
-                    <md-layout :md-gutter="true" md-flex="80" style="margin-top: 16px; padding: 8px;overflow-y:scroll;">
+                    <md-layout :md-gutter="true" md-flex="70" style="margin-top: 16px; padding: 8px;overflow-y:scroll;">
                         <!-- Select your club -->
                         <template v-for="club in clubs">
                             <md-layout md-row :md-gutter="true" md-flex="20" md-flex-small="50" md-flex-xsmall="100">
@@ -58,7 +58,8 @@
                             </md-layout>
                         </md-layout>
                         <p v-if="!popcornTaken">Show your phone to Kornor staff.</p>
-                        <p v-else style="text-align: center">Thank you!</p>
+                        <p v-else style="text-align: center">
+                            <span class="md-display-3">Thank you!</span></p>
                     </div>
                     <span style="flex: 1"></span>
                 </div>
