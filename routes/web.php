@@ -12,11 +12,11 @@
 */
 
 Route::get('/', function () {
-    return redirect('/app/activity-day');
+    return redirect('/app/news');
 })->name('index');
 
 Route::get('/app', function () {
-    return redirect('/app/activity-day');
+    return redirect('/app/news');
 })->name('index');
 
 // App

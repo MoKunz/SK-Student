@@ -24,7 +24,7 @@ window.axios = require('axios');
 window.axios.defaults.headers.common = AppConfig.axiosHeader;
 
 // constant
-window.APP_NAME = "SK Student";
+window.APP_NAME = "SK Kornor";
 window.APP_API_ENTRY = "/app-api";
 window.APP_CONTENT_ENTRY = "/app-content";
 
@@ -80,4 +80,4 @@ window.app = new Vue({
 }).$mount('#app');
 window.app.name = APP_NAME;
 window.app.apiEntry = APP_API_ENTRY;
-window.app.version = '1.0.2';
+window.app.version = '1.0.3';

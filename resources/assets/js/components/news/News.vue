@@ -1,10 +1,5 @@
 <template>
     <div class="app-container">
-        <!--<md-speed-dial id="action-add-news" md-mode="scale" class="md-fab-bottom-right" style="position: fixed">
-            <md-button class="md-fab" v-on:click.native="actionAddNews">
-                <md-icon>add</md-icon>
-            </md-button>
-        </md-speed-dial>-->
         <md-speed-dial v-show="$parent.loginSystem.loggedIn" md-mode="scale" class="md-fab-bottom-right">
             <md-button class="md-fab" md-fab-trigger v-on:click.native="actionAddNews">
                 <md-icon>add</md-icon>
@@ -16,8 +11,28 @@
             <md-layout id="news-section" md-align="center" md-flex-small="80" md-flex-xsmall="100" md-flex="50"
                        md-row :md-gutter="true">
                 <md-layout md-row md-flex="100" md-align="center">
+                    <md-card class="news-card" md-with-hover>
+                        <md-card-media-cover md-text-scrim>
+                            <md-card-media md-ratio="16:9">
+                                <img src="/img/activity-day-cover.jpg" alt="Activity Day">
+                            </md-card-media>
+
+                            <md-card-area>
+                                <md-card-header>
+                                    <div class="md-title">วันแนะนำกิจกรรม</div>
+                                    <div class="md-subhead">สวนสนกุกิจกรรม</div>
+                                </md-card-header>
+
+                                <md-card-actions>
+                                    <md-button>INFO</md-button>
+                                    <router-link tag="md-button" to="/app/activity-day">VOTE</router-link>
+                                </md-card-actions>
+                            </md-card-area>
+                        </md-card-media-cover>
+                    </md-card>
+
                     <template v-for="item in news.data">
-                        <md-card class="news-card">
+                        <md-card class="news-card" md-with-hover>
                             <md-card-header>
                                 <md-avatar>
                                     <img src="//vuematerial.github.io/assets/avatar.png"
