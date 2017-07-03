@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\ActivityDayClub;
 use App\ActivityDayCode;
+use App\ActivityDayPopcorn;
 use App\ActivityDayVoter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ActivityDayOTP;
@@ -43,6 +44,66 @@ class ActivityDayController extends Controller
         }
     }
 
+    public function status(Request $request)
+    {
+        /** @var ActivityDayVoter $voter */
+        $voter = ActivityDayVoter::where('phone_number', $request->get('phone'))->first();
+        if (!empty($voter)) {
+            // voted
+            if ($voter->club_id != null) {
+                // try to query popcorn
+                return [
+                    'voted' => true,
+                    'popcorn' => $this->popcornTaken($voter)
+                ];
+            }
+        }
+        return [
+            'voted' => false,
+            'popcorn' => false,
+        ];
+    }
+
+    public function popcorn(Request $request)
+    {
+        /** @var ActivityDayVoter $voter */
+        $voter = ActivityDayVoter::where('phone_number', $request->get('phone'))->first();
+        if (!$this->popcornTaken($voter)) {
+            // check password
+            $pass = env('ACTIVITY_DAY_POPCORN');
+            if ($pass == $request->get('pass')) {
+                $popcorn = new ActivityDayPopcorn();
+                $popcorn->voter_id = $voter->id;
+                $popcorn->save();
+                return [
+                    'success' => true,
+                    'message' => 'Success!'
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Invalid password!'
+                ];
+            }
+        } else {
+            return [
+                'success' => false,
+                'message' => 'You have already taken a popcorn.'
+            ];
+        }
+    }
+
+    private function popcornTaken($voter)
+    {
+        if (!empty($voter)) {
+            if (ActivityDayPopcorn::where('voter_id', $voter->id)->count()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 
     public function clubs()
     {
@@ -71,10 +132,16 @@ class ActivityDayController extends Controller
             $code->reference = strtolower(str_random(6));
             $code->otp = random_int(100000, 999999);
             $code->voter_id = $voter->id;
-            $code->save();
-            $this->sendSMS($voter->phone_number, $code->otp, $code->reference);
-            $ref = $code->reference;
-            $message = 'OTP has been generated and sent to following phone number (' . $voter->phone_number . ')';
+            if ($this->sendSMS($voter->phone_number, $code->otp, $code->reference)) {
+                $code->save();
+                $ref = $code->reference;
+                $message = 'OTP has been generated and sent to following phone number (' . $voter->phone_number . ')';
+            } else {
+                $code->delete();
+                $voter->delete();
+                $success = false;
+                $message = 'Problem while sending sms, please make sure your mobile phone number is valid and try again later.';
+            }
         }
         return [
             'success' => $success,
@@ -87,11 +154,12 @@ class ActivityDayController extends Controller
      *
      * @param $phone
      * @param $ref
+     * @return bool
      */
     private function sendSMS($phone, $pin, $ref)
     {
         if (env('SMS_DEBUG', false))
-            return;
+            return true;
         $username = env('SMS_USERNAME');
         $password = env('SMS_PASSWORD');
         $message = urlencode("#SKActivityPark\nVOTE PIN: " . $pin . " (Ref:" . $ref . ")\nMore info: skkornor.com");
@@ -106,9 +174,15 @@ class ActivityDayController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $parameter);
 
-        $result = curl_exec($ch);
+        $result = explode(',', curl_exec($ch));
+        $status = explode('=', $result[0])[1];
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        if ($code == 200 && intval($status) == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

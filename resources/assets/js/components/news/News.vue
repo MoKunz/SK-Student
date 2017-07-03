@@ -24,7 +24,7 @@
                                 </md-card-header>
 
                                 <md-card-content>
-                                    fobarbaa
+
                                 </md-card-content>
 
                                 <md-card-actions>
@@ -39,8 +39,8 @@
                         <md-card class="news-card" md-with-hover>
                             <md-card-header>
                                 <md-avatar>
-                                    <img src="//vuematerial.github.io/assets/avatar.png"
-                                         alt="Wittaya Srichompoo">
+                                    <img src="/img/android-chrome-192x192.png"
+                                         alt="Kornor">
                                 </md-avatar>
                                 <div class="md-title">{{item.name}}</div>
                                 <div class="md-subhead">{{item.created_at}} by {{item.user.name}}</div>

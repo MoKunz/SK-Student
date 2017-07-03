@@ -10,7 +10,7 @@
         </md-whiteframe>
         <div class="content-container" style="padding: 12px;">
             <md-layout md-flex="100" style="width: 100%; height: 100%;">
-                <form novalidate style="width: 100%; height: 100%;display: flex;flex-flow: column">
+                <form v-if="!voted" novalidate style="width: 100%; height: 100%;display: flex;flex-flow: column">
                     <!-- Second row -->
                     <md-layout :md-gutter="true" md-flex="10" style="min-height: 64px;">
                         <!-- Phone number -->
@@ -40,6 +40,28 @@
                         <span style="flex: 1"></span>
                     </md-layout>
                 </form>
+                <div v-else style="width: 100%; height: 100%; justify-content: center;display: flex;flex-flow: row">
+                    <span style="flex: 1"></span>
+                    <div style="margin-top: 32px;">
+                        <img src="/img/popcorn-icon.png" style="max-width:360px;  max-height: 360px">
+                        <md-layout v-if="!popcornTaken" md-row style="margin-top: 16px;">
+                            <md-layout md-flex="80">
+                                <md-input-container>
+                                    <label>POPCORN CODE</label>
+                                    <md-input v-model="popcornCode"></md-input>
+                                </md-input-container>
+                            </md-layout>
+                            <md-layout md-flex="10" style="padding-top: 12px;">
+                                <md-button v-on:click="popcorn" class="md-icon-button md-raised md-accent">
+                                    <md-icon>send</md-icon>
+                                </md-button>
+                            </md-layout>
+                        </md-layout>
+                        <p v-if="!popcornTaken">Show your phone to Kornor staff.</p>
+                        <p v-else style="text-align: center">Thank you!</p>
+                    </div>
+                    <span style="flex: 1"></span>
+                </div>
             </md-layout>
         </div>
         <md-dialog :md-click-outside-to-close="false" ref="sms">
@@ -94,7 +116,9 @@
                 snackBarMessage: 'Processing your request',
                 vertical: 'bottom',
                 horizontal: 'center',
-                duration: 4000
+                duration: 4000,
+                popcornCode: '',
+                popcornTaken: false,
             };
         },
         mounted() {
@@ -105,6 +129,15 @@
                     .catch(() => {
                         console.log('Error while loading clubs list');
                     });
+            if (localStorage.getItem('voted')) {
+                this.voted = true;
+            }
+            if (localStorage.getItem('phone') != undefined) {
+                this.phone = localStorage.getItem('phone');
+            }
+            if (localStorage.getItem('popcorn') != undefined) {
+                this.popcornTaken = localStorage.getItem('popcorn');
+            }
         },
         methods: {
             requestOTP(){
@@ -160,6 +193,9 @@
                         console.log('Success!');
                         this.snackBarMessage = 'Your vote has been registered!';
                         this.$refs.snackbar.open();
+                        this.voted = true;
+                        localStorage.setItem('phone', this.phone);
+                        localStorage.setItem('voted', true);
                     }
                     else {
                         this.otpInvalid = true;
@@ -180,6 +216,23 @@
                 }
                 return valid;
             },
+            /**
+             * Will be run after the vote has been registered
+             */
+            popcorn(){
+                axios.post(APP_API_ENTRY + '/activity-day/popcorn', {
+                    'phone': this.phone,
+                    'pass': this.popcornCode
+                }).then((response) => {
+                    if (response.data.success) {
+                        this.popcornTaken = true;
+                        localStorage.setItem('popcorn', true);
+                    }
+                    this.snack(response.data.message);
+                }).catch((err) => {
+                    this.snack(err.response.data.message);
+                });
+            },
             clubName(name){
                 return 'club-name-' + name;
             },
@@ -189,6 +242,10 @@
             closeDialog(ref) {
                 this.$refs[ref].close();
             },
+            snack(message){
+                this.snackBarMessage = message;
+                this.$refs.snackbar.open();
+            }
         }
     }
 </script>
